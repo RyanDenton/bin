@@ -1,4 +1,3 @@
- 
 #!/bin/bash
 
 # reflector is configured to update mirrors with the best outcome for current set up.

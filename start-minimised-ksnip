@@ -1,5 +1,4 @@
- 
-#!/bin/bash
+ #!/bin/bash
 # Launch teams as a background process
 ksnip&
 # Loop, waiting for the window to initialise

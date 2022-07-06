@@ -1,5 +1,4 @@
- 
-#!/bin/bash
+ #!/bin/bash
 # Launch teams as a background process
 slack&
 # Loop, waiting for the window to initialise

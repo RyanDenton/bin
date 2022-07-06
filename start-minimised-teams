@@ -1,4 +1,3 @@
- 
 #!/bin/bash
 sleep 5
 # Launch teams as a background process

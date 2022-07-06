@@ -1,4 +1,3 @@
- 
 #!/bin/bash
 # Launch teams as a background process
 solaar&
