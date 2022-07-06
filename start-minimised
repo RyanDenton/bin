@@ -7,7 +7,7 @@ appName=$1
 # Loop, waiting for the window to initialise
 i=0
 continue=True
-while [[ $i -lt 600 ]] # for the first minute
+while [[ $i -lt 100 ]] # for the first 10 seconds
 do
         sleep 0.1
         # check if the window can be found
