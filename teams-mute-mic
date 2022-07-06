@@ -10,7 +10,7 @@ then
         if [[ "$w" =~ 0x[0-9] ]]
         then
             # Activate the window
-            xdotool windowactivate $w key shift+alt+M
+            xdotool windowactivate $w key ctrl+shift+M
             xdotool windowminimize $w
         fi
     done
