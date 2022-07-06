@@ -1,0 +1,6 @@
+ 
+#!/bin/bash
+
+# reflector is configured to update mirrors with the best outcome for current set up.
+# Starting the service will refresh the mirrors and then quit.
+systemctl start reflector
