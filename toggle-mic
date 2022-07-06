@@ -1,0 +1,19 @@
+ 
+#!/bin/bash
+
+# Pull the list of Microphones from pactl
+microphones=`pactl list sources | grep "Source #"`
+if [ "$microphones" != "" ]
+then
+    for mic in $microphones
+    do
+        if [[ "$mic" =~ \#[0-9] ]] # Mic should match pattern #123
+        then
+            micNumber=`echo $mic | grep -oP '(\d+)'` # Remove the leading # value
+            echo 'Toggling Mic #'$micNumber'...'
+
+            # Mute the microphone
+            `pactl set-source-mute $micNumber toggle`
+        fi
+    done
+fi
