@@ -1,0 +1,28 @@
+#!/bin/bash
+appName=$1
+
+# Launch app as child process.
+(set -m; $appName &)
+
+# Loop, waiting for the window to initialise
+i=0
+continue=True
+while [[ $i -lt 600 ]] # for the first minute
+do
+        sleep 0.1
+        # check if the window can be found
+        window=`wmctrl -l|grep -i "$appName"`
+        if [ "$window" != "" ]
+        then
+                # Found the window
+                for w in $window
+                do
+                        if [[ "$w" =~ 0x[0-9] ]]
+                        then
+                                # Minimise the window
+                                xdotool windowminimize $w
+                        fi
+                done
+        fi
+        let "i++"
+done
