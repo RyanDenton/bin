@@ -1,0 +1,41 @@
+#!/bin/bash
+
+validDate=false
+
+while ! $validDate
+do
+
+    echo "Please enter the date you wish to rollback to, eg: 2021/10/01"
+    read -p "Rollback To: " rollbackDate
+
+    if [[ $rollbackDate =~ ^[0-9]{4}[/][0-9]{2}[/][0-9]{2}$ ]]
+    then
+        validDate=true
+        break
+    fi
+
+    echo "ERROR: Date did not match required format."
+
+done
+
+currentDateTime=$(date +"%Y-%m-%d %T")
+currentDateTimeFormatted=${currentDateTime// /_} # Replace spaces with underscore for use in a filename.
+
+echo "Backing up mirrorlist..."
+sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/archive/mirrorlist.backup.$currentDateTimeFormatted
+
+# point mirrorlist to the archive, specifying date to rollback to
+echo 'Server=https://archive.archlinux.org/repos/'$rollbackDate'/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist
+
+# do a full system upgrade/downgrade (double 'y' refreshes your package database, double 'u' allows pacman to downgrade packages)
+sudo pacman -Syyuu
+
+# When you are ready to catch up to the real world again, run update-mirrors, or use reflector to refresh your mirror list again.
+# (You will need to pacman or yay again to update your packages aswell).
+
+####################################################################################################
+# If you are attempting to downgrade AUR packages, cached packages can be found
+# in /var/cache/pacman/pkg and you can downgrade to them using: sudo pacman -U [AUR package]
+#
+# https://forum.endeavouros.com/t/can-i-downgrade-an-aur-package/22832
+####################################################################################################
