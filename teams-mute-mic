@@ -1,0 +1,17 @@
+#!/bin/bash
+
+window=`wmctrl -l|grep "Teams"`
+if [ "$window" != "" ] 
+then
+    # Found the window
+    for w in $window
+    do
+        # Window ID should match pattern 0x00000000000
+        if [[ "$w" =~ 0x[0-9] ]]
+        then
+            # Activate the window
+            xdotool windowactivate $w key shift+alt+M
+            xdotool windowminimize $w
+        fi
+    done
+fi
