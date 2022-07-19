@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+import pyudev
+import subprocess
+
+def main():
+    context = pyudev.Context()
+    monitor = pyudev.Monitor.from_netlink(context)
+    monitor.filter_by(subsystem='usb')
+    monitor.start()
+
+    for device in iter(monitor.poll, None):
+        # I can add more logic here, to run different scripts for different devices.
+        #subprocess.call(['/home/foo/foobar.sh', '--foo', '--bar'])
+        print(device)
+        if device.get('ID_VENDOR_ID') == '0fd9' and device.get('ID_MODEL_ID') == '006d':
+                print('found it')
+                subprocess.call(['start-stream-deck'])
+
+if __name__ == '__main__':
+    main()
