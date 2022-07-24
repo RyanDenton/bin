@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Capture any existing clipboard contents - we don't want to overwrite them.
+OLD_TEXT=$(xclip -o -selection clipboard)
+
+# Copy the last 2 words of the current line to the clipboard.
+# xdotool key End shift+Left shift+Left shift+Left shift+Left shift+Left ctrl+c
+xdotool key End ctrl+shift+Left ctrl+shift+Left ctrl+c
+TEXT="$(xclip -o)"
+
+# Looks for the existance of ' // ?' (with or without white spaces)
+REGEX=[[:blank:]]?\/\/[[:blank:]]?\?
+# if [[ "$TEXT" == ' // ?' ]]
+if [[ "$TEXT" =~ [[:blank:]]?\/\/[[:blank:]]?\?$ ]]
+then
+    xdotool key Delete
+    result=$(echo $TEXT | sed -E 's/([[:blank:]]?\/\/[[:blank:]]?\?)//')
+    xdotool type $result
+else
+    xdotool key End type ' // ?'
+fi
+
+# Replace the clipboard contents with the original text.
+printf "$OLD_TEXT" | xclip -i -selection clipboard
